@@ -2,7 +2,8 @@
 
 @section('content')
     <h1>Modifica progetto</h1>
-    <form class="form-control" action="{{ route('admin.projects.update', $project) }}" method="POST">
+    <form class="form-control" action="{{ route('admin.projects.update', $project) }}" method="POST"
+        enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div>
@@ -13,6 +14,10 @@
                     {{ $message }}
                 </small>
             @enderror
+            <div class="mb-3">
+                <label for="image" class="form-label">Inserire l'immagine</label>
+                <input class="form-control" placeholder="Immagine" name="image" id="image" type="file">
+            </div>
         </div>
         <div class="my-3">
             <button type="submit" class="btn btn-success me-3">Modifica</button>

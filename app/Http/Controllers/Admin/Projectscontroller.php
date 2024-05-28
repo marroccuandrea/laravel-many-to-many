@@ -103,19 +103,28 @@ class Projectscontroller extends Controller
         $data = $request->validate(
             [
                 'title' => 'required|min:3|max:255',
+                'image' => 'image'
             ],
             [
                 'title.required' => 'Il titolo è obbligatorio',
                 'title.max' => 'Il titolo non può superare i :max caratteri',
                 'title.min' => 'Il titolo deve avere almeno :min caratteri',
+                'image.image' => 'Il file caricato deve essere una immagine'
 
             ]
         );
+        $data = $request->all();
+        if (array_key_exists('image', $data)) {
+            $image_path = Storage::put('uploads', $data['image']);
+
+            $data['image'] = $image_path;
+        }
         $exist = Project::where('title', $request->title)->first();
         if ($exist) {
             return redirect()->route('admin.projects.index')->with('error', 'Progetto già esistente');
         } else {
             $data['slug'] = Help::generateSlug($request->title, Project::class);
+            $project->image = $data['image'];
             $project->update($data);
             return redirect()->route('admin.projects.index')->with('success', 'Progetto modificato correttamente');
         }
