@@ -26,6 +26,28 @@
             <input class="form-control" placeholder="Nome progetto" name="title" id="title">
         </div>
         <div class="mb-3">
+            <label for="type" class="form-label">Tipo</label>
+            <select class="form-select" name="type" id="type">
+                @foreach ($types as $type)
+                    <option value="{{ $type->id }}">
+                        {{ $type->title }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Linguaggi: </label>
+            <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+                @foreach ($tecnologies as $tecnology)
+                    <input type="checkbox" class="btn-check" id="tecnology_{{ $tecnology->id }}" autocomplete="off"
+                        name="tecnologies[]" value="{{ $tecnology->id }}">
+                    <label class="btn btn-outline-primary"
+                        for="tecnology_{{ $tecnology->id }}">{{ $tecnology->title }}</label>
+                @endforeach
+            </div>
+        </div>
+
+        <div class="mb-3">
             <label for="image" class="form-label">Inserire l'immagine</label>
             <input class="form-control" placeholder="Immagine" name="image" id="image" type="file">
         </div>

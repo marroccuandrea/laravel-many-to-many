@@ -31,14 +31,15 @@
                     <a href="{{ route('admin.orderby', ['direction' => $direction, 'column' => 'title']) }}">Progetti</a>
                 </th>
                 <th scope="col">Tipo</th>
-                <th scope="col">Immagine</th>
+                <th scope="col">Linguaggi</th>
                 <th scope="col">Azioni</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($projects as $project)
                 <tr>
-                    <td>
+                    {{-- Form per modificare nell'index --}}
+                    {{-- <td>
                         <form action="{{ route('admin.projects.update', $project) }}" method="POST"
                             id="form-edit-{{ $project->id }}">
                             @csrf
@@ -46,16 +47,24 @@
                             <input type="text" value="{{ $project->title }}" name="title">
 
                         </form>
-                    </td>
+                    </td> --}}
+                    <td>{{ $project->title }}</td>
                     <td>{{ $project->type?->title }}</td>
                     <td>
-                        <img class="image-fluid w-25" src="{{ asset('storage/' . $project->image) }}"
-                            alt="{{ $project->title }}">
+                        @forelse ($project->tecnologies as $tecnology)
+                            <span class="badge text-bg-dark">{{ $tecnology->title }}</span>
+                        @empty
+                            - no tecnology -
+                        @endforelse
+
                     </td>
+
                     <td class="d-flex">
 
                         {{-- <button onclick="submitForm({{ $project->id }})" class="me-2 btn btn-warning"
                             type="submit">Modifica</button> --}}
+                        <a class="btn btn-primary me-2" href="{{ route('admin.projects.show', $project->id) }}"><i
+                                class="fa-solid fa-eye"></i></a>
                         <a class="btn btn-warning me-2" href="{{ route('admin.projects.edit', $project->id) }}"><i
                                 class="fa-solid fa-pen-to-square"></i></a>
                         <form action="{{ route('admin.projects.destroy', $project) }}" method="POST"
