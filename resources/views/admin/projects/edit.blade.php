@@ -8,7 +8,8 @@
         @method('PUT')
         <div>
             <label for="title">Titolo</label>
-            <input class="form-control me-2" type="text" name="title" id="title" value="{{ $project->title }}">
+            <input class="form-control me-2" type="text" name="title" id="title"
+                value="{{ old('title', $project->title) }}">
             @error('title')
                 <small class="text-danger">
                     {{ $message }}
@@ -18,7 +19,8 @@
                 <label for="type" class="form-label">Tipo</label>
                 <select class="form-select" name="type" id="type">
                     @foreach ($types as $type)
-                        <option value="{{ $type->id }}">
+                        <option value="{{ $type->id }}"
+                            {{ old('type', $project->type_id) == $type->id ? 'selected' : '' }}>
                             {{ $type->title }}
                         </option>
                     @endforeach
@@ -29,7 +31,8 @@
                 <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
                     @foreach ($tecnologies as $tecnology)
                         <input type="checkbox" class="btn-check" id="tecnology_{{ $tecnology->id }}" autocomplete="off"
-                            name="tecnologies[]" value="{{ $tecnology->id }}">
+                            name="tecnologies[]" value="{{ $tecnology->id }}"
+                            {{ in_array($tecnology->id, old('tecnologies', $project->tecnologies->pluck('id')->toArray())) ? 'checked' : '' }}>
                         <label class="btn btn-outline-primary"
                             for="tecnology_{{ $tecnology->id }}">{{ $tecnology->title }}</label>
                     @endforeach
